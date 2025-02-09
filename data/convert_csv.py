@@ -12,7 +12,7 @@ df = california.frame  # Already has feature names
 os.makedirs("data", exist_ok=True)
 
 # 3️⃣ Save CSV file
-csv_path = "data/csv/california_housing.csv"
+csv_path = "data/california_housing.csv"
 df.to_csv(csv_path, index=False)
 
 print(f"✅ Dataset successfully saved to {csv_path}")
