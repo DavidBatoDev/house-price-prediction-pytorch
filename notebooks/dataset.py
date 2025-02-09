@@ -5,13 +5,16 @@ import numpy as np
 
 
 class CaliforniaHousingDataset(Dataset):
-    def __init__(self, csv_file):
+    def __init__(self, csv_file=None, df=None):
         """
         Initialize the dataset by laoding the CSV file. 
         Normalize the input features for better training.
         """
-        self.data = pd.read_csv(csv_file)
-
+        if df is None:
+            self.data = pd.read_csv(csv_file)
+        else:
+            self.data = df.copy()  # Correctly copy the DataFrame
+            
         # Features (X) and (y)
         self.X = self.data.drop(columns=["MedHouseVal"]).values # get all features
         self.y = self.data["MedHouseVal"].values.reshape(-1, 1)    # shape: (num_samples, 1)
