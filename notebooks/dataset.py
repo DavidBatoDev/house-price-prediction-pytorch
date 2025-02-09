@@ -14,14 +14,14 @@ class CaliforniaHousingDataset(Dataset):
 
         # Features (X) and (y)
         self.X = self.data.drop(columns=["MedHouseVal"]).values # get all features
-        self.y = self.data['MedHouseVal'].values.reshape(1, -1) # get the target values
+        self.y = self.data["MedHouseVal"].values.reshape(-1, 1)    # shape: (num_samples, 1)
 
         # Normalize feature (mean = 0, std = 1) or also known as standardilization
         self.X = (self.X - np.mean(self.X, axis=0))  / np.std(self.X, axis=0) # formula: (X - mean / std)
 
         # Convert it to tensors since we are using pytorch
         self.X = torch.tensor(self.X, dtype=torch.float32)
-        self.y = torch.tensor(self.X, dtype=torch.float32)
+        self.y = torch.tensor(self.y, dtype=torch.float32) 
 
     def __len__(self):
         """Return the lenght of the total number of the sample"""
