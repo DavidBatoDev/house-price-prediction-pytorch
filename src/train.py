@@ -5,6 +5,7 @@ from torch.utils.data import DataLoader
 import os
 from sklearn.model_selection import train_test_split
 import pandas as pd
+from plot import plot_regression_results
 
 from dataset import CaliforniaHousingDataset, get_dataloader
 from model import LinearRegressionModel
@@ -93,6 +94,7 @@ def main():
         
         if (epoch + 1) % 10 == 0:
             print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {epoch_loss:.4f}, Test Loss: {test_loss:.4f}")
+    plot_regression_results(model, test_loader, device)
 
 if __name__ == "__main__":
     main()

@@ -5,35 +5,28 @@ import numpy as np
 
 
 class CaliforniaHousingDataset(Dataset):
-    def __init__(self, csv_file=None, df=None):
-        """
-        Initialize the dataset by laoding the CSV file. 
-        Normalize the input features for better training.
-        """
+    def __init__(self, csv_file=None, df=None, mean=None, std=None):
         if df is None:
             self.data = pd.read_csv(csv_file)
         else:
-            self.data = df.copy()  # Correctly copy the DataFrame
-            
-        # Features (X) and (y)
-        self.X = self.data.drop(columns=["MedHouseVal"]).values # get all features
-        self.y = self.data["MedHouseVal"].values.reshape(-1, 1)    # shape: (num_samples, 1)
-
-        # Normalize feature (mean = 0, std = 1) or also known as standardilization
-        self.X = (self.X - np.mean(self.X, axis=0))  / np.std(self.X, axis=0) # formula: (X - mean / std)
-
-        # Convert it to tensors since we are using pytorch
+            self.data = df.copy()
+        
+        self.X = self.data.drop(columns=["MedHouseVal"]).values
+        self.y = self.data["MedHouseVal"].values.reshape(-1, 1)
+        
+        # If mean and std are provided, apply them
+        if mean is not None and std is not None:
+            self.X = (self.X - mean) / std
+        
         self.X = torch.tensor(self.X, dtype=torch.float32)
-        self.y = torch.tensor(self.y, dtype=torch.float32) 
-
+        self.y = torch.tensor(self.y, dtype=torch.float32)
+    
     def __len__(self):
-        """Return the lenght of the total number of the sample"""
         return len(self.data)
     
-
     def __getitem__(self, idx):
-        """Retrieve a sincel sample from dataset"""
         return self.X[idx], self.y[idx]
+
     
 
 # function to get the DataLoader
