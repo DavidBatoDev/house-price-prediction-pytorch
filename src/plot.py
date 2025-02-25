@@ -8,6 +8,7 @@ def plot_regression_results(model, dataloader, device):
 
     with torch.no_grad():
         for inputs, targets in dataloader:
+            # Put inputs to device
             inputs = inputs.to(device)
             targets = targets.to(device)
 
