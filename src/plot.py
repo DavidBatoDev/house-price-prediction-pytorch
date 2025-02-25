@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import torch
 
-def plot_regression_results(model, dataloader, device):
+def plot_regression_results(model, dataloader, device, title='Linear Regression Predictions'):
     model.eval()
     actuals = []
     predictions = []
@@ -22,7 +22,7 @@ def plot_regression_results(model, dataloader, device):
     plt.plot([min(actuals), max(actuals)], [min(actuals), max(actuals)], 'r', label="Perfect Fit")
     plt.xlabel("Actual Values")
     plt.ylabel("Predicted Values")
-    plt.title("Linear Regression Predictions")
+    plt.title(title)
     plt.legend()
     plt.grid()
     plt.show()

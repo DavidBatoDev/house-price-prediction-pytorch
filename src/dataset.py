@@ -5,7 +5,7 @@ import numpy as np
 
 
 class CaliforniaHousingDataset(Dataset):
-    def __init__(self, csv_file=None, df=None, mean=None, std=None):
+    def __init__(self, csv_file=None, df=None, mean=None, std=None, target_mean=None, target_std=None, normalizedTarget=False):
         if df is None:
             self.data = pd.read_csv(csv_file)
         else:
@@ -17,6 +17,11 @@ class CaliforniaHousingDataset(Dataset):
         # If mean and std are provided, apply them
         if mean is not None and std is not None:
             self.X = (self.X - mean) / std
+
+        # Normalize target (optional)
+        if target_mean is not None and target_std is not None:
+            target_std = target_std if target_std != 0 else 1e-8
+            self.y = (self.y - target_mean) / target_std
         
         self.X = torch.tensor(self.X, dtype=torch.float32)
         self.y = torch.tensor(self.y, dtype=torch.float32)
